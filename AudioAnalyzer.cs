@@ -148,6 +148,8 @@
             int rvalue = (int)(_mmAudioDevice.AudioMeterInformation.PeakValues[1] * 255);
             result.Add("left", (byte)lvalue);
             result.Add("right", (byte)rvalue);
+            // execute AnalyzeBassAverage to refresh spectrum bars, even in volume peak mode
+            AnalyzeBassAverage();
             return result;
         }
 
