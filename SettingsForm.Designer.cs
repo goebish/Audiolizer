@@ -29,6 +29,7 @@ namespace Audiolizer
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             this.groupBox_Mode = new System.Windows.Forms.GroupBox();
             this.radioButton_Spectrum = new System.Windows.Forms.RadioButton();
@@ -42,6 +43,8 @@ namespace Audiolizer
             this.groupBox_LedBarIP = new System.Windows.Forms.GroupBox();
             this.textBox_LedBarIP = new System.Windows.Forms.TextBox();
             this.label_about = new System.Windows.Forms.Label();
+            this.groupBox_Spectrum = new System.Windows.Forms.GroupBox();
+            this.timer_Spectrum = new System.Windows.Forms.Timer(this.components);
             this.groupBox_Mode.SuspendLayout();
             this.groupBox_Smoothing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Smoothing)).BeginInit();
@@ -70,7 +73,7 @@ namespace Audiolizer
             this.radioButton_Spectrum.TabStop = true;
             this.radioButton_Spectrum.Text = "Sprectrum";
             this.radioButton_Spectrum.UseVisualStyleBackColor = true;
-            this.radioButton_Spectrum.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.radioButton_Spectrum.CheckedChanged += new System.EventHandler(this.radioButton_Spectrum_CheckedChanged);
             // 
             // radioButton_VolumePeak
             // 
@@ -82,7 +85,7 @@ namespace Audiolizer
             this.radioButton_VolumePeak.TabStop = true;
             this.radioButton_VolumePeak.Text = "Volume Peak";
             this.radioButton_VolumePeak.UseVisualStyleBackColor = true;
-            this.radioButton_VolumePeak.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.radioButton_VolumePeak.CheckedChanged += new System.EventHandler(this.radioButton_VolumePeak_CheckedChanged);
             // 
             // groupBox_Smoothing
             // 
@@ -160,22 +163,36 @@ namespace Audiolizer
             this.textBox_LedBarIP.Name = "textBox_LedBarIP";
             this.textBox_LedBarIP.Size = new System.Drawing.Size(197, 23);
             this.textBox_LedBarIP.TabIndex = 0;
-            this.textBox_LedBarIP.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox_LedBarIP.TextChanged += new System.EventHandler(this.textBox_LedBarIP_TextChanged);
             // 
             // label_about
             // 
             this.label_about.AutoSize = true;
-            this.label_about.Location = new System.Drawing.Point(60, 394);
+            this.label_about.Location = new System.Drawing.Point(61, 502);
             this.label_about.Name = "label_about";
             this.label_about.Size = new System.Drawing.Size(111, 15);
             this.label_about.TabIndex = 8;
-            this.label_about.Text = "v1.0 ©goebish 2022";
+            this.label_about.Text = "v1.1 ©goebish 2022";
+            // 
+            // groupBox_Spectrum
+            // 
+            this.groupBox_Spectrum.Location = new System.Drawing.Point(12, 397);
+            this.groupBox_Spectrum.Name = "groupBox_Spectrum";
+            this.groupBox_Spectrum.Size = new System.Drawing.Size(212, 100);
+            this.groupBox_Spectrum.TabIndex = 9;
+            this.groupBox_Spectrum.TabStop = false;
+            this.groupBox_Spectrum.Text = "Spectrum";
+            // 
+            // timer_Spectrum
+            // 
+            this.timer_Spectrum.Tick += new System.EventHandler(this.timer_Spectrum_Tick);
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(238, 417);
+            this.ClientSize = new System.Drawing.Size(238, 522);
+            this.Controls.Add(this.groupBox_Spectrum);
             this.Controls.Add(this.label_about);
             this.Controls.Add(this.groupBox_LedBarIP);
             this.Controls.Add(this.groupBox_Input);
@@ -213,5 +230,7 @@ namespace Audiolizer
         private System.Windows.Forms.GroupBox groupBox_LedBarIP;
         private System.Windows.Forms.TextBox textBox_LedBarIP;
         private System.Windows.Forms.Label label_about;
+        private System.Windows.Forms.GroupBox groupBox_Spectrum;
+        private System.Windows.Forms.Timer timer_Spectrum;
     }
 }

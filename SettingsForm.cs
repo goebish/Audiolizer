@@ -71,6 +71,18 @@ namespace Audiolizer
                 _spectrumBands.Add(checkbox);
                 this.groupBox_SpectrumBands.Controls.Add(_spectrumBands[i]);
             }
+            // spectrum bars
+            VerticalProgressBar bar;
+            for (int i = 0; i < AudioAnalyzer.MaxLines; i++)
+            {
+                bar = new VerticalProgressBar();
+                bar.Width = (groupBox_Spectrum.Width-20) / AudioAnalyzer.MaxLines;
+                bar.Height = 75;
+                bar.Location = new Point((i*bar.Width)+10, 20);
+                toolTip.SetToolTip(bar, (i+1).ToString());
+                bar.Tag = i.ToString();
+                groupBox_Spectrum.Controls.Add(bar);
+            }
         }
 
         #endregion
@@ -123,6 +135,9 @@ namespace Audiolizer
                 }
             }
             _analyzer.bands = settings.SpectrumFilter;
+
+            timer_Spectrum.Interval = 40;
+            timer_Spectrum.Start();
         }
 
         private Boolean CheckIP(String ip)
@@ -162,7 +177,7 @@ namespace Audiolizer
             label_Smoothing.Text = Convert.ToString(trackBar_Smoothing.Value);
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_VolumePeak_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton_VolumePeak.Checked) {
                 _analyzer.mode = "PeakVolume";
@@ -170,7 +185,7 @@ namespace Audiolizer
             }
         }
 
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_Spectrum_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton_Spectrum.Checked) {
                 _analyzer.mode = "SpectrumFilter";
@@ -192,7 +207,7 @@ namespace Audiolizer
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void textBox_LedBarIP_TextChanged(object sender, EventArgs e)
         {
             if (CheckIP(textBox_LedBarIP.Text)) {
                 Audiolizer.LedBarIP = textBox_LedBarIP.Text;
@@ -210,6 +225,17 @@ namespace Audiolizer
             Application.Exit();
         }
 
+        private void timer_Spectrum_Tick(object sender, EventArgs e)
+        {
+            foreach (Control control in this.groupBox_Spectrum.Controls)
+            {
+                if (control.GetType().Name == "VerticalProgressBar")
+                {
+                    VerticalProgressBar bar = control as VerticalProgressBar;
+                    bar.Value = (byte)((float)_analyzer.spectrum[Convert.ToInt32(control.Tag)] / 2.55f);
+                }
+            }
+        }
     }
 
     #endregion

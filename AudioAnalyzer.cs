@@ -24,6 +24,7 @@
         private AudioDevice _currentAudioDevice;
         private MMDevice _mmAudioDevice;
         private float _masterVolume;
+        private byte[] _spectrum;
 
         #endregion
 
@@ -32,6 +33,12 @@
         public int smoothing { get; set; }
         public List<int> bands { get; set; }
         public string mode { get; set; }
+
+        public byte[] spectrum {
+            get {
+                return _spectrum;
+            }
+        }
         // Get the list of audio devices
         public List<AudioDevice> AudioDevices
         {
@@ -105,6 +112,7 @@
         public AudioAnalyzer()
         {
             this._fftDataBuffer = new float[1024];
+            this._spectrum = new byte[MaxLines];
             this._wasapiProcessCallback = new WASAPIPROC(this.WasapiProcessCallBack);
 
             Bass.BASS_SetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS, false);
@@ -162,10 +170,11 @@
             var b0 = 0;
             var average = 0;
 
-            if (bands != null && bands.Count > 0)
+            if (bands != null)
             {
-                foreach (var band in bands)
+                for (int band = 0; band < MaxLines; band++)
                 {
+                    // compute band start (b0) & end (b1) in fft array
                     peak = 0;
                     if (band > 0)
                         b0 = 1+(int)Math.Pow(2, (band-1) * 10.0 / (MaxLines - 1));
@@ -174,23 +183,29 @@
                         b1 = 1023;
                     if (b1 <= b0)
                         b1 = b0 + 1;
+                    // retrieve peak value of this band
                     for (; b0 < b1; b0++)
                         if (peak < this._fftDataBuffer[1 + b0])
-                            peak = this._fftDataBuffer[1 + b0] / _masterVolume;
-
+                            peak = this._fftDataBuffer[1 + b0];
+                    peak /= _masterVolume;
+                    // convert to byte using a logarithm
                     j = (int)(Math.Sqrt(peak) * 3 * 255 - 4);
                     if (j > 255)
                         j = 255;
                     if (j < 0)
                         j = 0;
 
-                    average += (byte)j;
+                    _spectrum[band] = (byte)j;
+
+                    if (bands.Contains(band))
+                        average += (byte)j;
                 }
-                average /= bands.Count;
+                if (bands.Count > 1)
+                    average /= bands.Count;
             }
             var level = BassWasapi.BASS_WASAPI_GetLevel();
-            var left = ((double)Utils.LowWord32(level) - 0) / ((double)ushort.MaxValue - 0) * (255 - 0) + 0;
-            var right = ((double)Utils.HighWord32(level) - 0) / ((double)ushort.MaxValue - 0) * (255 - 0) + 0;
+            var left = (double)Utils.LowWord32(level) / (double)ushort.MaxValue * 255;
+            var right = (double)Utils.HighWord32(level) / (double)ushort.MaxValue * 255;
             left = average * (1 - (1 / (1 + left)));
             right = average * (1 - (1 / (1 + right)));
 

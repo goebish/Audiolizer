@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Audiolizer
@@ -11,8 +8,6 @@ namespace Audiolizer
     [Serializable]
     public class Settings
     {
-        public const string Extension = ".testInfo";
-
         [XmlElement]
         public string InputName { get; set; }
 
