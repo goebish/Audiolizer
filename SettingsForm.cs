@@ -67,6 +67,8 @@ namespace Audiolizer
                 if (i >= 9)
                     checkbox.Location = new Point(10 + (i > 7 ? i - 8 : i) * 25 - 5, i > 7 ? 60 : 25);
                 checkbox.MouseClick += new MouseEventHandler(this.checkbox_Click);
+                checkbox.MouseEnter += new EventHandler(this.checkbox_Enter);
+                checkbox.MouseLeave += new EventHandler(this.checkbox_Leave);
                 this.groupBox_SpectrumBands.Controls.Add(checkbox);
             }
             // spectrum bars
@@ -151,6 +153,43 @@ namespace Audiolizer
                 return false;
             IPAddress address;
             return IPAddress.TryParse(ip, out address) && address.AddressFamily == AddressFamily.InterNetwork;
+        }
+
+        private void checkbox_Enter(object sender, EventArgs e)
+        {
+            CheckBox checkbox = sender as CheckBox;
+            foreach (Control control in this.groupBox_Spectrum.Controls)
+            {
+                if (control.GetType().Name == "VerticalProgressBar")
+                {
+                    VerticalProgressBar bar = control as VerticalProgressBar;
+                    if (Convert.ToInt32(bar.Tag) == Convert.ToInt32(checkbox.Tag))
+                    {
+                        bar.BackColor = Color.LimeGreen;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void checkbox_Leave(object sender, EventArgs e)
+        {
+            CheckBox checkbox = sender as CheckBox;
+            foreach (Control control in this.groupBox_Spectrum.Controls)
+            {
+                if (control.GetType().Name == "VerticalProgressBar")
+                {
+                    VerticalProgressBar bar = control as VerticalProgressBar;
+                    if (_analyzer.bands.Contains(Convert.ToInt32(bar.Tag)))
+                    {
+                        bar.BackColor = Color.White;
+                    }
+                    else
+                    {
+                        bar.BackColor = Color.LightGray;
+                    }
+                }
+            }
         }
 
         private void checkbox_Click(object sender, MouseEventArgs e)
