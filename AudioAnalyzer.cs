@@ -189,9 +189,7 @@
                             peak = this._fftDataBuffer[1 + b0];
                     peak /= _masterVolume;
                     // convert to byte using a logarithm
-                    j = (int)(Math.Sqrt(peak) * 3 * 255 - 4);
-                    // rescale (previous formula returns values way over 255)
-                    j >>= 2;
+                    j = (int)((Math.Sqrt(peak) * 3 * 255 - 4) / 1.5f); // TODO: make scaling (1.5f) configurable, [0.5-2] ?
                     // limit
                     if (j > 255)
                         j = 255;
