@@ -18,9 +18,8 @@ namespace Audiolizer
         #region Fields
 
         private AudioAnalyzer _analyzer;
-        private List<CheckBox> _spectrumBands = new List<CheckBox>();
         private List<AudioDevice> _input_devices = new List<AudioDevice>();
-        public Settings settings;
+        private Settings settings;
 
         #endregion
 
@@ -68,8 +67,7 @@ namespace Audiolizer
                 if (i >= 9)
                     checkbox.Location = new Point(10 + (i > 7 ? i - 8 : i) * 25 - 5, i > 7 ? 60 : 25);
                 checkbox.MouseClick += new MouseEventHandler(this.checkbox_Click);
-                _spectrumBands.Add(checkbox);
-                this.groupBox_SpectrumBands.Controls.Add(_spectrumBands[i]);
+                this.groupBox_SpectrumBands.Controls.Add(checkbox);
             }
             // spectrum bars
             VerticalProgressBar bar;
@@ -83,6 +81,9 @@ namespace Audiolizer
                 bar.Tag = i.ToString();
                 groupBox_Spectrum.Controls.Add(bar);
             }
+            // start spectrum refresh timer
+            timer_Spectrum.Interval = 40;
+            timer_Spectrum.Start();
         }
 
         #endregion
@@ -135,9 +136,6 @@ namespace Audiolizer
                 }
             }
             _analyzer.bands = settings.SpectrumFilter;
-
-            timer_Spectrum.Interval = 40;
-            timer_Spectrum.Start();
         }
 
         private Boolean CheckIP(String ip)
@@ -227,12 +225,15 @@ namespace Audiolizer
 
         private void timer_Spectrum_Tick(object sender, EventArgs e)
         {
-            foreach (Control control in this.groupBox_Spectrum.Controls)
+            if (_analyzer != null)
             {
-                if (control.GetType().Name == "VerticalProgressBar")
+                foreach (Control control in this.groupBox_Spectrum.Controls)
                 {
-                    VerticalProgressBar bar = control as VerticalProgressBar;
-                    bar.Value = (byte)((float)_analyzer.spectrum[Convert.ToInt32(control.Tag)] / 2.55f);
+                    if (control.GetType().Name == "VerticalProgressBar")
+                    {
+                        VerticalProgressBar bar = control as VerticalProgressBar;
+                        bar.Value = (byte)((float)_analyzer.spectrum[Convert.ToInt32(control.Tag)] / 2.55f);
+                    }
                 }
             }
         }
