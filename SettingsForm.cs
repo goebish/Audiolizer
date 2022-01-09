@@ -141,6 +141,7 @@ namespace Audiolizer
                 }
             }
             _analyzer.bands = settings.SpectrumFilter;
+            checkbox_Click( null, null);
         }
 
         private Boolean CheckIP(String ip)
@@ -162,6 +163,17 @@ namespace Audiolizer
                     CheckBox checkbox = control as CheckBox;
                     if (checkbox.Checked)
                         selected.Add(Convert.ToInt32(checkbox.Tag));
+                }
+            }
+            foreach (Control control in this.groupBox_Spectrum.Controls)
+            {
+                if (control.GetType().Name == "VerticalProgressBar")
+                {
+                    VerticalProgressBar bar = control as VerticalProgressBar;
+                    if (selected.Contains(Convert.ToInt32(bar.Tag)))
+                        bar.BackColor = Color.White;
+                    else
+                        bar.BackColor = Color.LightGray;
                 }
             }
             _analyzer.bands = selected;

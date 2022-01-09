@@ -93,18 +93,19 @@ namespace Audiolizer
             this.groupBox_Smoothing.Controls.Add(this.label_Smoothing);
             this.groupBox_Smoothing.Location = new System.Drawing.Point(12, 214);
             this.groupBox_Smoothing.Name = "groupBox_Smoothing";
-            this.groupBox_Smoothing.Size = new System.Drawing.Size(212, 70);
+            this.groupBox_Smoothing.Size = new System.Drawing.Size(212, 58);
             this.groupBox_Smoothing.TabIndex = 4;
             this.groupBox_Smoothing.TabStop = false;
             this.groupBox_Smoothing.Text = "Smoothing";
             // 
             // trackBar_Smoothing
             // 
+            this.trackBar_Smoothing.AutoSize = false;
             this.trackBar_Smoothing.LargeChange = 1;
             this.trackBar_Smoothing.Location = new System.Drawing.Point(2, 22);
             this.trackBar_Smoothing.Minimum = 1;
             this.trackBar_Smoothing.Name = "trackBar_Smoothing";
-            this.trackBar_Smoothing.Size = new System.Drawing.Size(179, 45);
+            this.trackBar_Smoothing.Size = new System.Drawing.Size(179, 30);
             this.trackBar_Smoothing.TabIndex = 4;
             this.trackBar_Smoothing.Value = 7;
             this.trackBar_Smoothing.Scroll += new System.EventHandler(this.trackBar_Smoothing_Scroll);
@@ -120,7 +121,7 @@ namespace Audiolizer
             // 
             // groupBox_SpectrumBands
             // 
-            this.groupBox_SpectrumBands.Location = new System.Drawing.Point(12, 290);
+            this.groupBox_SpectrumBands.Location = new System.Drawing.Point(13, 278);
             this.groupBox_SpectrumBands.Name = "groupBox_SpectrumBands";
             this.groupBox_SpectrumBands.Size = new System.Drawing.Size(212, 100);
             this.groupBox_SpectrumBands.TabIndex = 5;
@@ -168,7 +169,7 @@ namespace Audiolizer
             // label_about
             // 
             this.label_about.AutoSize = true;
-            this.label_about.Location = new System.Drawing.Point(61, 502);
+            this.label_about.Location = new System.Drawing.Point(60, 487);
             this.label_about.Name = "label_about";
             this.label_about.Size = new System.Drawing.Size(111, 15);
             this.label_about.TabIndex = 8;
@@ -176,7 +177,7 @@ namespace Audiolizer
             // 
             // groupBox_Spectrum
             // 
-            this.groupBox_Spectrum.Location = new System.Drawing.Point(12, 397);
+            this.groupBox_Spectrum.Location = new System.Drawing.Point(12, 384);
             this.groupBox_Spectrum.Name = "groupBox_Spectrum";
             this.groupBox_Spectrum.Size = new System.Drawing.Size(212, 100);
             this.groupBox_Spectrum.TabIndex = 9;
@@ -191,7 +192,7 @@ namespace Audiolizer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(238, 522);
+            this.ClientSize = new System.Drawing.Size(238, 506);
             this.Controls.Add(this.groupBox_Spectrum);
             this.Controls.Add(this.label_about);
             this.Controls.Add(this.groupBox_LedBarIP);
