@@ -96,14 +96,14 @@ namespace Audiolizer
                 settings = Settings.Load("settings");
             else
                 settings = new Settings();
-
+            // smoothing
             trackBar_Smoothing.Value = settings.Smoothing;
             label_Smoothing.Text = Convert.ToString(trackBar_Smoothing.Value);
             _analyzer.smoothing = settings.Smoothing;
-
+            // ledbar ip
             textBox_LedBarIP.Text = settings.LedBarIP;
             Audiolizer.LedBarIP = settings.LedBarIP;
-
+            // mode
             if (settings.Mode == "PeakVolume")
             {
                 radioButton_VolumePeak.Checked = true;
@@ -113,7 +113,12 @@ namespace Audiolizer
                 radioButton_Spectrum.Checked = true;
             }
             _analyzer.mode = settings.Mode;
-
+            // input device
+            List<AudioDevice> devices = _analyzer.AudioDevices;
+            foreach (AudioDevice device in devices)
+            {
+                populateInputs(device);
+            }
             foreach (var item in comboBox_input.Items)
             {
                 if (comboBox_input.GetItemText(item) == settings.InputName)
@@ -122,7 +127,7 @@ namespace Audiolizer
                 }
             }
             comboBox_input_SelectedIndexChanged(null, null);
-
+            // spectrum filter
             foreach (Control control in this.groupBox_SpectrumBands.Controls)
             {
                 if (control.GetType().Name == "CheckBox")

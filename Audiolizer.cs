@@ -3,7 +3,6 @@ using System.Linq;
 using System.Timers;
 using System.Net.Sockets;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 
 namespace Audiolizer
@@ -19,7 +18,7 @@ namespace Audiolizer
         private static AudioAnalyzer analyzer = new AudioAnalyzer();
         private static SettingsForm settingsForm;
 
-        private static void OnTimer(Object source, ElapsedEventArgs e)
+        private static void OnAnalyzerTimer(Object source, ElapsedEventArgs e)
         {
             // run analyzer
             Dictionary<string, byte> data = analyzer.Analyze();
@@ -37,28 +36,21 @@ namespace Audiolizer
             }
         }
 
-        private static void SetTimer()
+        private static void StartAnalyzerTimer()
         {
             aTimer = new System.Timers.Timer(15);
-            aTimer.Elapsed += OnTimer;
+            aTimer.Elapsed += OnAnalyzerTimer;
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
         }
 
         static void Main(string[] args)
         {
+            StartAnalyzerTimer();
             settingsForm = new SettingsForm();
             settingsForm.Analyzer = analyzer;
-            List<AudioDevice> devices = analyzer.AudioDevices;
-            foreach (AudioDevice device in devices)
-            {
-                settingsForm.populateInputs(device);
-            }
             settingsForm.LoadSettings();
-            SetTimer();
             settingsForm.ShowDialog();
-            Application.Run();
-            analyzer.Dispose();
         }
     }
 }
