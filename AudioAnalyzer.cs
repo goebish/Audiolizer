@@ -190,13 +190,15 @@
                     peak /= _masterVolume;
                     // convert to byte using a logarithm
                     j = (int)(Math.Sqrt(peak) * 3 * 255 - 4);
+                    // rescale (previous formula returns values way over 255)
+                    j >>= 2;
+                    // limit
                     if (j > 255)
                         j = 255;
                     if (j < 0)
                         j = 0;
-
                     _spectrum[band] = (byte)j;
-
+                    // add this band for averaging if selected
                     if (bands.Contains(band))
                         average += (byte)j;
                 }
