@@ -81,6 +81,7 @@ namespace Audiolizer
                 bar.Location = new Point((i*bar.Width)+10, 20);
                 toolTip.SetToolTip(bar, (i+1).ToString());
                 bar.Tag = i.ToString();
+                bar.MouseClick += new MouseEventHandler(this.SpectrumBar_Click);
                 groupBox_Spectrum.Controls.Add(bar);
             }
             // start spectrum refresh timer
@@ -188,6 +189,21 @@ namespace Audiolizer
                     {
                         bar.BackColor = Color.LightGray;
                     }
+                }
+            }
+        }
+
+        private void SpectrumBar_Click(object sender, MouseEventArgs e)
+        {
+            VerticalProgressBar bar = sender as VerticalProgressBar;
+            foreach (Control control in this.groupBox_SpectrumBands.Controls)
+            {
+                CheckBox checkbox = control as CheckBox;
+                if ((string)bar.Tag == (string)checkbox.Tag)
+                {
+                    checkbox.Checked = !checkbox.Checked;
+                    checkbox_Click(checkbox, null);
+                    break;
                 }
             }
         }
