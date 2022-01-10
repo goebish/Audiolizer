@@ -81,6 +81,7 @@ namespace Audiolizer
                 bar.Location = new Point((i*bar.Width)+10, 20);
                 toolTip.SetToolTip(bar, (i+1).ToString());
                 bar.Tag = i.ToString();
+                bar.Style = ProgressBarStyle.Continuous;
                 bar.MouseClick += new MouseEventHandler(this.SpectrumBar_Click);
                 groupBox_Spectrum.Controls.Add(bar);
             }
