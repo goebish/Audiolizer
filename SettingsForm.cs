@@ -49,6 +49,7 @@ namespace Audiolizer
             MaximizeBox = false;
 
             // sprectrum filter checkboxes
+            const float step = 22050.0f / 1024.0f; // FFT2048 = 1024 points for 0-22050 Hz range
             CheckBox checkbox;
             ToolTip toolTip = new ToolTip();
             for (int i=0; i<AudioAnalyzer.MaxLines; i++) {
@@ -56,7 +57,6 @@ namespace Audiolizer
                 checkbox.CheckAlign = ContentAlignment.TopCenter;
                 checkbox.Tag = i.ToString();
                 checkbox.Text = (i+1).ToString();
-                const float step = 22050.0f / 1024.0f; // FFT2048 = 1024 points for 0-22050 Hz range
                 int freq_start = 1;
                 if (i > 0)
                     freq_start = (int)(1 + (int)Math.Pow(2, (i - 1) * 10.0 / (AudioAnalyzer.MaxLines - 1))*step);
@@ -80,7 +80,12 @@ namespace Audiolizer
                 bar.Width = (groupBox_Spectrum.Width-20) / AudioAnalyzer.MaxLines;
                 bar.Height = 75;
                 bar.Location = new Point((i*bar.Width)+10, 20);
-                toolTip.SetToolTip(bar, (i+1).ToString());
+                int freq_start = 1;
+                if (i > 0)
+                    freq_start = (int)(1 + (int)Math.Pow(2, (i - 1) * 10.0 / (AudioAnalyzer.MaxLines - 1)) * step);
+                int freq_end = (int)((int)Math.Pow(2, i * 10.0 / (AudioAnalyzer.MaxLines - 1)) * step);
+                String tip = freq_start.ToString() + "-" + freq_end.ToString() + " Hz";
+                toolTip.SetToolTip(bar, tip);
                 bar.Tag = i.ToString();
                 bar.Style = ProgressBarStyle.Continuous;
                 bar.MouseClick += new MouseEventHandler(this.SpectrumBar_Click);
