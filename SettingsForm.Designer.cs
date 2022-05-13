@@ -45,11 +45,16 @@ namespace Audiolizer
             this.label_about = new System.Windows.Forms.Label();
             this.groupBox_Spectrum = new System.Windows.Forms.GroupBox();
             this.timer_Spectrum = new System.Windows.Forms.Timer(this.components);
+            this.groupBox_Scaling = new System.Windows.Forms.GroupBox();
+            this.label_Scaling = new System.Windows.Forms.Label();
+            this.trackBar_Scaling = new System.Windows.Forms.TrackBar();
             this.groupBox_Mode.SuspendLayout();
             this.groupBox_Smoothing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Smoothing)).BeginInit();
             this.groupBox_Input.SuspendLayout();
             this.groupBox_LedBarIP.SuspendLayout();
+            this.groupBox_Scaling.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_Scaling)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox_Mode
@@ -121,7 +126,7 @@ namespace Audiolizer
             // 
             // groupBox_SpectrumBands
             // 
-            this.groupBox_SpectrumBands.Location = new System.Drawing.Point(13, 278);
+            this.groupBox_SpectrumBands.Location = new System.Drawing.Point(12, 350);
             this.groupBox_SpectrumBands.Name = "groupBox_SpectrumBands";
             this.groupBox_SpectrumBands.Size = new System.Drawing.Size(212, 100);
             this.groupBox_SpectrumBands.TabIndex = 5;
@@ -169,15 +174,15 @@ namespace Audiolizer
             // label_about
             // 
             this.label_about.AutoSize = true;
-            this.label_about.Location = new System.Drawing.Point(60, 487);
+            this.label_about.Location = new System.Drawing.Point(59, 559);
             this.label_about.Name = "label_about";
             this.label_about.Size = new System.Drawing.Size(111, 15);
             this.label_about.TabIndex = 8;
-            this.label_about.Text = "v1.1 ©goebish 2022";
+            this.label_about.Text = "v1.2 ©goebish 2022";
             // 
             // groupBox_Spectrum
             // 
-            this.groupBox_Spectrum.Location = new System.Drawing.Point(12, 384);
+            this.groupBox_Spectrum.Location = new System.Drawing.Point(11, 456);
             this.groupBox_Spectrum.Name = "groupBox_Spectrum";
             this.groupBox_Spectrum.Size = new System.Drawing.Size(212, 100);
             this.groupBox_Spectrum.TabIndex = 9;
@@ -188,11 +193,44 @@ namespace Audiolizer
             // 
             this.timer_Spectrum.Tick += new System.EventHandler(this.timer_Spectrum_Tick);
             // 
+            // groupBox_Scaling
+            // 
+            this.groupBox_Scaling.Controls.Add(this.label_Scaling);
+            this.groupBox_Scaling.Controls.Add(this.trackBar_Scaling);
+            this.groupBox_Scaling.Location = new System.Drawing.Point(13, 278);
+            this.groupBox_Scaling.Name = "groupBox_Scaling";
+            this.groupBox_Scaling.Size = new System.Drawing.Size(210, 66);
+            this.groupBox_Scaling.TabIndex = 10;
+            this.groupBox_Scaling.TabStop = false;
+            this.groupBox_Scaling.Text = "Spectrum Scaling";
+            // 
+            // label_Scaling
+            // 
+            this.label_Scaling.AutoSize = true;
+            this.label_Scaling.Location = new System.Drawing.Point(185, 23);
+            this.label_Scaling.Name = "label_Scaling";
+            this.label_Scaling.Size = new System.Drawing.Size(19, 15);
+            this.label_Scaling.TabIndex = 1;
+            this.label_Scaling.Text = "15";
+            // 
+            // trackBar_Scaling
+            // 
+            this.trackBar_Scaling.AutoSize = false;
+            this.trackBar_Scaling.Location = new System.Drawing.Point(10, 23);
+            this.trackBar_Scaling.Maximum = 20;
+            this.trackBar_Scaling.Minimum = 5;
+            this.trackBar_Scaling.Name = "trackBar_Scaling";
+            this.trackBar_Scaling.Size = new System.Drawing.Size(170, 37);
+            this.trackBar_Scaling.TabIndex = 0;
+            this.trackBar_Scaling.Value = 15;
+            this.trackBar_Scaling.Scroll += new System.EventHandler(this.trackBar_Scaling_Scroll);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(238, 506);
+            this.ClientSize = new System.Drawing.Size(238, 583);
+            this.Controls.Add(this.groupBox_Scaling);
             this.Controls.Add(this.groupBox_Spectrum);
             this.Controls.Add(this.label_about);
             this.Controls.Add(this.groupBox_LedBarIP);
@@ -212,6 +250,9 @@ namespace Audiolizer
             this.groupBox_Input.ResumeLayout(false);
             this.groupBox_LedBarIP.ResumeLayout(false);
             this.groupBox_LedBarIP.PerformLayout();
+            this.groupBox_Scaling.ResumeLayout(false);
+            this.groupBox_Scaling.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_Scaling)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -233,5 +274,8 @@ namespace Audiolizer
         private System.Windows.Forms.Label label_about;
         private System.Windows.Forms.GroupBox groupBox_Spectrum;
         private System.Windows.Forms.Timer timer_Spectrum;
+        private System.Windows.Forms.GroupBox groupBox_Scaling;
+        private System.Windows.Forms.TrackBar trackBar_Scaling;
+        private System.Windows.Forms.Label label_Scaling;
     }
 }

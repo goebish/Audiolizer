@@ -33,6 +33,7 @@
         public int smoothing { get; set; }
         public List<int> bands { get; set; }
         public string mode { get; set; }
+        public int scaling { get; set; }
 
         public byte[] spectrum {
             get {
@@ -120,8 +121,6 @@
 
             var devEnum = new MMDeviceEnumerator();
             this._mmAudioDevice = devEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
-            
-            //this._mmAudioDevice.AudioEndpointVolume.OnVolumeNotification += this.AudioEndpointVolume_OnVolumeNotification;
         }
 
         #endregion
@@ -191,7 +190,7 @@
                             peak = this._fftDataBuffer[1 + b0];
                     peak /= _masterVolume;
                     // convert to byte using a logarithm
-                    j = (int)((Math.Sqrt(peak) * 3 * 255 - 4) / 1.5f); // TODO: make scaling (1.5f) configurable, [0.5-2] ?
+                    j = (int)((Math.Sqrt(peak) * 3 * 255 - 4) / ((float)scaling/10.0f)); // scaling = [0.5-2]
                     // limit
                     if (j > 255)
                         j = 255;

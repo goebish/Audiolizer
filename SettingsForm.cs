@@ -34,6 +34,7 @@ namespace Audiolizer
             set{
                 this._analyzer = value;
                 _analyzer.smoothing = trackBar_Smoothing.Value;
+                _analyzer.scaling = trackBar_Scaling.Value;
             }
         }
 
@@ -104,6 +105,10 @@ namespace Audiolizer
             trackBar_Smoothing.Value = settings.Smoothing;
             label_Smoothing.Text = Convert.ToString(trackBar_Smoothing.Value);
             _analyzer.smoothing = settings.Smoothing;
+            // scaling
+            trackBar_Scaling.Value = settings.Scaling;
+            label_Scaling.Text = Convert.ToString(trackBar_Scaling.Value - trackBar_Scaling.Minimum);
+            _analyzer.scaling = trackBar_Scaling.Maximum - (trackBar_Scaling.Value - trackBar_Scaling.Minimum);
             // ledbar ip
             textBox_LedBarIP.Text = settings.LedBarIP;
             Audiolizer.LedBarIP = settings.LedBarIP;
@@ -248,6 +253,13 @@ namespace Audiolizer
             label_Smoothing.Text = Convert.ToString(trackBar_Smoothing.Value);
         }
 
+        private void trackBar_Scaling_Scroll(object sender, EventArgs e)
+        {
+            _analyzer.scaling = trackBar_Scaling.Maximum - (trackBar_Scaling.Value - trackBar_Scaling.Minimum);
+            settings.Scaling = trackBar_Scaling.Value;
+            label_Scaling.Text = Convert.ToString(trackBar_Scaling.Value - trackBar_Scaling.Minimum);
+        }        
+
         private void radioButton_VolumePeak_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton_VolumePeak.Checked) {
@@ -306,6 +318,14 @@ namespace Audiolizer
                     {
                         VerticalProgressBar bar = control as VerticalProgressBar;
                         bar.Value = (byte)((float)_analyzer.spectrum[Convert.ToInt32(control.Tag)] / 2.55f);
+                        if (bar.Value >= bar.Maximum)
+                        {
+                            bar.ForeColor = Color.Red;
+                        }
+                        else
+                        {
+                            bar.ForeColor = Color.DodgerBlue;
+                        }
                     }
                 }
             }

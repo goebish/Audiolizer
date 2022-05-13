@@ -23,6 +23,9 @@ namespace Audiolizer
         [XmlElement]
         public List<int> SpectrumFilter { get; set; }
 
+        [XmlElement]
+        public int Scaling { get; set; }
+
         public Settings()
         {
             InputName = "";
@@ -30,6 +33,7 @@ namespace Audiolizer
             Smoothing = 7;
             Mode = "PeakVolume";
             SpectrumFilter = new List<int>();
+            Scaling = 15;
         }
 
         public void Save(string filePath)
