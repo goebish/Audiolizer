@@ -219,11 +219,11 @@ namespace Audiolizer
             this.trackBar_Scaling.AutoSize = false;
             this.trackBar_Scaling.Location = new System.Drawing.Point(10, 23);
             this.trackBar_Scaling.Maximum = 20;
-            this.trackBar_Scaling.Minimum = 5;
+            this.trackBar_Scaling.Minimum = 1;
             this.trackBar_Scaling.Name = "trackBar_Scaling";
             this.trackBar_Scaling.Size = new System.Drawing.Size(170, 37);
             this.trackBar_Scaling.TabIndex = 0;
-            this.trackBar_Scaling.Value = 15;
+            this.trackBar_Scaling.Value = 9;
             this.trackBar_Scaling.Scroll += new System.EventHandler(this.trackBar_Scaling_Scroll);
             // 
             // SettingsForm

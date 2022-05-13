@@ -33,7 +33,7 @@ namespace Audiolizer
             Smoothing = 7;
             Mode = "PeakVolume";
             SpectrumFilter = new List<int>();
-            Scaling = 5;
+            Scaling = 9;
         }
 
         public void Save(string filePath)
