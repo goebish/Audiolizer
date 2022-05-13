@@ -126,12 +126,13 @@ namespace Audiolizer
             // 
             // groupBox_SpectrumBands
             // 
-            this.groupBox_SpectrumBands.Location = new System.Drawing.Point(12, 350);
+            this.groupBox_SpectrumBands.Location = new System.Drawing.Point(181, 453);
             this.groupBox_SpectrumBands.Name = "groupBox_SpectrumBands";
-            this.groupBox_SpectrumBands.Size = new System.Drawing.Size(212, 100);
+            this.groupBox_SpectrumBands.Size = new System.Drawing.Size(62, 26);
             this.groupBox_SpectrumBands.TabIndex = 5;
             this.groupBox_SpectrumBands.TabStop = false;
             this.groupBox_SpectrumBands.Text = "Spectrum Filter";
+            this.groupBox_SpectrumBands.Visible = false;
             // 
             // groupBox_Input
             // 
@@ -174,7 +175,7 @@ namespace Audiolizer
             // label_about
             // 
             this.label_about.AutoSize = true;
-            this.label_about.Location = new System.Drawing.Point(59, 559);
+            this.label_about.Location = new System.Drawing.Point(64, 453);
             this.label_about.Name = "label_about";
             this.label_about.Size = new System.Drawing.Size(111, 15);
             this.label_about.TabIndex = 8;
@@ -182,7 +183,7 @@ namespace Audiolizer
             // 
             // groupBox_Spectrum
             // 
-            this.groupBox_Spectrum.Location = new System.Drawing.Point(11, 456);
+            this.groupBox_Spectrum.Location = new System.Drawing.Point(11, 350);
             this.groupBox_Spectrum.Name = "groupBox_Spectrum";
             this.groupBox_Spectrum.Size = new System.Drawing.Size(212, 100);
             this.groupBox_Spectrum.TabIndex = 9;
@@ -202,7 +203,7 @@ namespace Audiolizer
             this.groupBox_Scaling.Size = new System.Drawing.Size(210, 66);
             this.groupBox_Scaling.TabIndex = 10;
             this.groupBox_Scaling.TabStop = false;
-            this.groupBox_Scaling.Text = "Spectrum Scaling";
+            this.groupBox_Scaling.Text = " Scaling";
             // 
             // label_Scaling
             // 
@@ -229,7 +230,7 @@ namespace Audiolizer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(238, 583);
+            this.ClientSize = new System.Drawing.Size(238, 474);
             this.Controls.Add(this.groupBox_Scaling);
             this.Controls.Add(this.groupBox_Spectrum);
             this.Controls.Add(this.label_about);
