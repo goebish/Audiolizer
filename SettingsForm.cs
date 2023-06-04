@@ -31,7 +31,8 @@ namespace Audiolizer
             {
                 return this._analyzer;
             }
-            set{
+            set
+            {
                 this._analyzer = value;
                 _analyzer.smoothing = trackBar_Smoothing.Value;
                 _analyzer.scaling = trackBar_Scaling.Value;
@@ -52,19 +53,20 @@ namespace Audiolizer
             const float step = 22050.0f / 1024.0f; // FFT2048 = 1024 points for 0-22050 Hz range
             CheckBox checkbox;
             ToolTip toolTip = new ToolTip();
-            for (int i=0; i<AudioAnalyzer.MaxLines; i++) {
+            for (int i = 0; i < AudioAnalyzer.MaxLines; i++)
+            {
                 checkbox = new CheckBox();
                 checkbox.CheckAlign = ContentAlignment.TopCenter;
                 checkbox.Tag = i.ToString();
-                checkbox.Text = (i+1).ToString();
+                checkbox.Text = (i + 1).ToString();
                 int freq_start = 1;
                 if (i > 0)
-                    freq_start = (int)(1 + (int)Math.Pow(2, (i - 1) * 10.0 / (AudioAnalyzer.MaxLines - 1))*step);
-                int freq_end = (int)((int)Math.Pow(2, i * 10.0 / (AudioAnalyzer.MaxLines - 1))*step);
+                    freq_start = (int)(1 + (int)Math.Pow(2, (i - 1) * 10.0 / (AudioAnalyzer.MaxLines - 1)) * step);
+                int freq_end = (int)((int)Math.Pow(2, i * 10.0 / (AudioAnalyzer.MaxLines - 1)) * step);
                 String tip = freq_start.ToString() + "-" + freq_end.ToString() + " Hz";
                 toolTip.SetToolTip(checkbox, tip);
                 checkbox.AutoSize = true;
-                checkbox.Location = new Point(10 + (i > 7 ? i-8 : i) * 25, i > 7 ? 60 : 25);
+                checkbox.Location = new Point(10 + (i > 7 ? i - 8 : i) * 25, i > 7 ? 60 : 25);
                 if (i >= 9)
                     checkbox.Location = new Point(10 + (i > 7 ? i - 8 : i) * 25 - 5, i > 7 ? 60 : 25);
                 checkbox.MouseClick += new MouseEventHandler(this.checkbox_Click);
@@ -77,9 +79,9 @@ namespace Audiolizer
             for (int i = 0; i < AudioAnalyzer.MaxLines; i++)
             {
                 bar = new VerticalProgressBar();
-                bar.Width = (groupBox_Spectrum.Width-20) / AudioAnalyzer.MaxLines;
+                bar.Width = (groupBox_Spectrum.Width - 20) / AudioAnalyzer.MaxLines;
                 bar.Height = 75;
-                bar.Location = new Point((i*bar.Width)+10, 20);
+                bar.Location = new Point((i * bar.Width) + 10, 20);
                 int freq_start = 1;
                 if (i > 0)
                     freq_start = (int)(1 + (int)Math.Pow(2, (i - 1) * 10.0 / (AudioAnalyzer.MaxLines - 1)) * step);
@@ -148,14 +150,24 @@ namespace Audiolizer
                 {
                     CheckBox checkbox = control as CheckBox;
                     int checkbox_tag = Convert.ToInt32(checkbox.Tag);
-                    if(settings.SpectrumFilter.Contains(checkbox_tag))
+                    if (settings.SpectrumFilter.Contains(checkbox_tag))
                     {
                         checkbox.Checked = true;
                     }
                 }
             }
             _analyzer.bands = settings.SpectrumFilter;
-            checkbox_Click( null, null);
+            // spectrum mode
+            if (settings.SpectrumMode == "Peak")
+            {
+                radioButton_SpectrumPeak.Checked = true;
+            }
+            else if (settings.SpectrumMode == "Average")
+            {
+                radioButton_SpectrumAverage.Checked = true;
+            }
+            _analyzer.spectrumMode = settings.SpectrumMode;
+            checkbox_Click(null, null);
         }
 
         private Boolean CheckIP(String ip)
@@ -246,7 +258,8 @@ namespace Audiolizer
             settings.SpectrumFilter = selected;
         }
 
-        public void populateInputs(AudioDevice device) {
+        public void populateInputs(AudioDevice device)
+        {
             _input_devices.Add(device);
             comboBox_input.Items.Add(device.DeviceName);
         }
@@ -263,11 +276,12 @@ namespace Audiolizer
             _analyzer.scaling = trackBar_Scaling.Maximum - (trackBar_Scaling.Value - trackBar_Scaling.Minimum);
             settings.Scaling = trackBar_Scaling.Value;
             label_Scaling.Text = Convert.ToString(trackBar_Scaling.Value - trackBar_Scaling.Minimum);
-        }        
+        }
 
         private void radioButton_VolumePeak_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton_VolumePeak.Checked) {
+            if (radioButton_VolumePeak.Checked)
+            {
                 _analyzer.mode = "PeakVolume";
                 settings.Mode = _analyzer.mode;
             }
@@ -275,7 +289,8 @@ namespace Audiolizer
 
         private void radioButton_Spectrum_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton_Spectrum.Checked) {
+            if (radioButton_Spectrum.Checked)
+            {
                 _analyzer.mode = "SpectrumFilter";
                 settings.Mode = _analyzer.mode;
             }
@@ -283,9 +298,11 @@ namespace Audiolizer
 
         private void comboBox_input_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach (AudioDevice dev in _input_devices) {
+            foreach (AudioDevice dev in _input_devices)
+            {
                 string selected = comboBox_input.GetItemText(comboBox_input.SelectedItem);
-                if (dev.DeviceName == selected) {
+                if (dev.DeviceName == selected)
+                {
                     _analyzer.Listening = false;
                     _analyzer.CurrentAudioDevice = dev;
                     _analyzer.Listening = true;
@@ -297,12 +314,14 @@ namespace Audiolizer
 
         private void textBox_LedBarIP_TextChanged(object sender, EventArgs e)
         {
-            if (CheckIP(textBox_LedBarIP.Text)) {
+            if (CheckIP(textBox_LedBarIP.Text))
+            {
                 Audiolizer.LedBarIP = textBox_LedBarIP.Text;
                 textBox_LedBarIP.BackColor = Color.White;
                 settings.LedBarIP = Audiolizer.LedBarIP;
             }
-            else {
+            else
+            {
                 textBox_LedBarIP.BackColor = Color.Red;
             }
         }
@@ -333,6 +352,24 @@ namespace Audiolizer
                         }
                     }
                 }
+            }
+        }
+
+        private void radioButton_SpectrumAverage_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_SpectrumAverage.Checked)
+            {
+                _analyzer.spectrumMode = "Average";
+                settings.SpectrumMode = _analyzer.spectrumMode;
+            }
+        }
+
+        private void radioButton_SpectrumPeak_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton_SpectrumPeak.Checked)
+            {
+                _analyzer.spectrumMode = "Peak";
+                settings.SpectrumMode = _analyzer.spectrumMode;
             }
         }
     }

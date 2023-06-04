@@ -34,6 +34,7 @@
         public List<int> bands { get; set; }
         public string mode { get; set; }
         public int scaling { get; set; }
+        public string spectrumMode { get; set; }
 
         public byte[] spectrum {
             get {
@@ -170,6 +171,7 @@
             float peak;
             var b0 = 0;
             var average = 0;
+            int maximum = 0;
 
             if (bands != null)
             {
@@ -199,7 +201,12 @@
                     _spectrum[band] = (byte)j;
                     // add this band for averaging if selected
                     if (bands.Contains(band))
+                    {
                         average += (byte)j;
+                        // get maximum
+                        if (maximum < j)
+                            maximum = (byte)j;
+                    }
                 }
                 if (bands.Count > 1)
                     average /= bands.Count;
@@ -207,8 +214,16 @@
             var level = BassWasapi.BASS_WASAPI_GetLevel();
             var left = (double)Utils.LowWord32(level) / (double)ushort.MaxValue * 255;
             var right = (double)Utils.HighWord32(level) / (double)ushort.MaxValue * 255;
-            left = average * (1 - (1 / (1 + left)));
-            right = average * (1 - (1 / (1 + right)));
+            
+            if (this.spectrumMode == "Average") { 
+                left = average * (1 - (1 / (1 + left)));
+                right = average * (1 - (1 / (1 + right)));
+            }
+            else if (this.spectrumMode == "Peak")
+            {
+                left = maximum * (1 - (1 / (1 + left)));
+                right = maximum * (1 - (1 / (1 +right)));
+            }
 
             result.Add("left", (byte)left);
             result.Add("right", (byte)right);

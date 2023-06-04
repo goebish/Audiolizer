@@ -26,12 +26,16 @@ namespace Audiolizer
         [XmlElement]
         public int Scaling { get; set; }
 
+        [XmlElement]
+        public string SpectrumMode { get; set; }
+
         public Settings()
         {
             InputName = "";
             LedBarIP = "";
             Smoothing = 7;
-            Mode = "PeakVolume";
+            Mode = "Spectrum";
+            SpectrumMode = "Average";
             SpectrumFilter = new List<int>();
             Scaling = 9;
         }
